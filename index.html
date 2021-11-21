@@ -50,6 +50,14 @@
 </head>
 
 <body>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+    token: "9f9b614f000441b5bd1728959732de7b"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
+                        
   <main>
     <form>
       <fieldset>
@@ -69,39 +77,137 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button onclick="consoleLog()">Console Log</button>
+      <button onclick="consoleError()">Console Error</button>
+      <button onclick="consoleCounter()">Console Count</button>
+      <button onclick="consoleWarn()">Console Warn</button>
+      <button onclick="consoleAssert()">Console Assert</button>
+      <button onclick="consoleClear()">Console Clear</button>
+      <button onclick="consoleDir()">Console Dir</button>
+      <button onclick="consoleDirXml()">Console dirxml</button>
+      <button onclick="consoleGroupStart()">Console Group Start</button>
+      <button onclick="consoleGroupEnd()">Console Group End</button>
+      <button onclick="consoleTable()">Console Table</button>
+      <button onclick="startTimer()">Start Timer</button>
+      <button onclick="endTimer()">End Timer</button>
+      <button onclick="consoleTrace()">Console Trace</button>
+      <button onclick="triggerGlobErr()">Trigger a Global Error</button>
     </section>
   </main>
-
+  
+  
+                        
   <script>
+    class ValidationError extends Error {
+      constructor(message) {
+      super(message); // (1)
+      this.name = "ValidationError"; // (2)
+      TrackJS.track('Testing TrackJS!');
+                        
+      }
+    }
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try{
+        let output = document.querySelector('output');
+        let firstNum = document.querySelector('#first-num').value;
+        let secondNum = document.querySelector('#second-num').value;
+        let operator = document.querySelector('#operator').value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch(err){
+        //throw new ValidationError("no");
+        alert("you don't deserve an error message ... ok fine you didnt put numbers in");
+        TrackJS.track('Testing TrackJS!');
+        throw new ValidationError("wrong input");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
     // Start your code here
     // You may move this JS to another file if you wish
+    function consoleLog(){
+      console.log("Console Log Demo: I am sleepy");
+      
+    }
+
+    function consoleError(){
+      console.error("caitlin.exe has stopped working");
+    }
+
+    function consoleCounter(){
+      console.count("Braincells");
+    }
+
+    function consoleWarn(){
+      console.warn("so you know that spongebob gif where they're panicking and running in circles ... yea");
+    }
+
+    function consoleAssert(){
+      const x = "braincell";
+      const y = "empty";
+      const reason = 'REEEE NOT THE SAME'
+      console.assert(x == y, {x, y, reason});  
+    }
+
+    function consoleClear(){
+      console.clear();
+    }
+
+    function consoleDir(){
+      console.dir(document.body);
+    }
+
+    function consoleDirXml(){
+      console.dirxml(document);
+    }
+
+    function consoleGroupStart(){
+      console.group("send help");
+    }
+
+    function consoleGroupEnd(){
+      //am done being sent help
+      console.groupEnd("send help");
+    }
+
+    function consoleTable(){
+      console.table([
+        {
+          mood: 'reeeeeee',
+          no: 'is no yes',
+        },
+        {
+          mood: 'everything is fine',
+          hungry: 'always',
+          math: 'disgusting',
+        },
+        {
+          mood: 'it be like that sometimes',
+          what: 'is yes no',
+        }
+      ]);
+    }
+
+    function startTimer(){
+      console.time("no");
+    }
+
+    function endTimer(){
+      console.timeEnd("no");
+    }
+    
+    function consoleTrace(){
+      console.trace();
+    }
+
+    function triggerGlobErr(){
+      TrackJS.track('Testing TrackJS!');
+    }
+
+
   </script>
 </body>
 
