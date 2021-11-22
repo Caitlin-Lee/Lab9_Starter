@@ -114,7 +114,12 @@
         let firstNum = document.querySelector('#first-num').value;
         let secondNum = document.querySelector('#second-num').value;
         let operator = document.querySelector('#operator').value;
+        if (Number.isNaN(firstNum) || Number.isNaN(secondNum)) {
+            throw new formError("Custom error: bad input detected");
+        }
         output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+ 
+
       }
       catch(err){
         //throw new ValidationError("no");
@@ -183,6 +188,7 @@
           mood: 'everything is fine',
           hungry: 'always',
           math: 'disgusting',
+          no: 'waluigi'
         },
         {
           mood: 'it be like that sometimes',
@@ -205,6 +211,7 @@
 
     function triggerGlobErr(){
       TrackJS.track('Testing TrackJS!');
+      return notDefinedVar;
     }
 
 
